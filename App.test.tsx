@@ -1,12 +1,12 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import { fireEvent, renderApp } from "./tests/test.utils";
 
-import App from "./App";
+test("Home page has a button to details page", async () => {
+  const screen = renderApp();
 
-describe("<App />", () => {
-  it("has 1 child", () => {
-    const tree = renderer.create(<App />).toJSON();
-    // @ts-ignore
-    expect(tree.children.length).toBe(1);
-  });
+  screen.getByText(/Home/i);
+  const goToDetailsButton = screen.getByText(/Go.*Details/i);
+
+  fireEvent.press(goToDetailsButton);
+
+  await screen.findByText(/Details.*screen/i);
 });
